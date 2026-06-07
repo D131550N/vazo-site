@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convite para o Vazô</title>
+</head>
+<body style="text-align: center; font-family: sans-serif; background: #1B8E3C; color: white; padding: 50px;">
+    
+    <h1>Você foi convidado para uma partida!</h1>
+    <p>O Vazô está abrindo...</p>
+    
+    <button id="btnJogar" style="padding: 15px 30px; font-size: 20px; background: white; color: #1B8E3C; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; margin-top: 20px;">
+        🃏 Entrar na Mesa
+    </button>
+
+    <script>
+        // Pega o ID e a Senha que vieram do WhatsApp
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        const senha = urlParams.get('senha') || '';
+
+        // Monta o "Deep Link" que só o Android entende. 
+        // O "package=" no final garante que, se ele não tiver o app, vai pra Play Store!
+        const intentUrl = `intent://sala?id=${id}&senha=${senha}#Intent;scheme=vazo;package=com.vazo.truco;end`;
+
+        // Tenta abrir o jogo sozinho quando a página carrega
+        window.onload = function() {
+            if (id) {
+                window.location.href = intentUrl;
+            }
+        };
+
+        // Se o celular bloquear o pop-up automático, o botão resolve
+        document.getElementById('btnJogar').onclick = function() {
+            window.location.href = intentUrl;
+        };
+    </script>
+</body>
+</html>
